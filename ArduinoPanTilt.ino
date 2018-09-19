@@ -34,8 +34,7 @@ WiiChuck chuck = WiiChuck();
  
 int varx, vary, absx, absy, mapx, mapy = 0;
  
-void setup()
-{
+void setup() {
  Serial.begin(115200); // Opening the serial port
  
  TCCR2B = TCCR2B & 0b11111000 | 0x07; //Adjusting PWM frequencies for testing pins 11 and 3
@@ -48,8 +47,7 @@ void setup()
 }
  
 //To power the WiiChuck Adapter
-static void nunchuck_setpowerpins()
-{
+static void nunchuck_setpowerpins() {
 #define pwrpin PORTC3
 #define gndpin PORTC2
  DDRC |= _BV(pwrpin) | _BV(gndpin);
@@ -77,48 +75,27 @@ void loop() {
  
  // Tilt based on the input from the joystick
  
- if (vary > 18)
- {
- 
- analogWrite(up, mapy);
- digitalWrite(down, LOW);
- }
- 
- else if (vary < -18)
- {
- 
- analogWrite(down, mapy);
- digitalWrite(up, LOW);
- }
- 
- // Stop tilt
- else
- {
- analogWrite(up, LOW);
- analogWrite(down, LOW);
+ if (vary > 18) {
+  analogWrite(up, mapy);
+  digitalWrite(down, LOW);
+ } else if (vary < -18) {
+  analogWrite(down, mapy);
+  digitalWrite(up, LOW);
+ } else { // Stop tilt
+  analogWrite(up, LOW);
+  analogWrite(down, LOW);
  }
  
  // Pan based on the input from the joystick
- if (varx > 10)
- {
- 
- analogWrite(right, mapx);
- digitalWrite(left, LOW);
- 
- }
- 
- else if (varx < -10)
- {
- analogWrite(left, mapx);
- digitalWrite(right, LOW);
- 
- }
- 
- // Stop pan
- else
- {
- analogWrite(right, LOW);
- analogWrite(left, LOW);
+ if (varx > 10) {
+  analogWrite(right, mapx);
+  digitalWrite(left, LOW);
+ } else if (varx < -10) {
+  analogWrite(left, mapx);
+  digitalWrite(right, LOW);
+ } else { // Stop pan
+  analogWrite(right, LOW);
+  analogWrite(left, LOW);
  }
  
  Serial.print(chuck.readJoyX());

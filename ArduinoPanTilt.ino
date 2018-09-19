@@ -25,10 +25,10 @@
 #include "Wire.h"
 #include "WiiChuck.h" // The library used by the Nunchuck
  
-#define left 11 //Pin 11 controls left pan
-#define right 3 //Pin 3 controls right pan
-#define up 10 //Pin 10 controls up tilt
-#define down 9 //Pin 9 controls down tilt
+#define left 11 // Pin 11 controls left pan
+#define right 3 // Pin 3 controls right pan
+#define up 10 // Pin 10 controls up tilt
+#define down 9 // Pin 9 controls down tilt
  
 WiiChuck chuck = WiiChuck();
  
@@ -37,8 +37,8 @@ int varx, vary, absx, absy, mapx, mapy = 0;
 void setup() {
  Serial.begin(115200); // Opening the serial port
  
- TCCR2B = TCCR2B & 0b11111000 | 0x07; //Adjusting PWM frequencies for testing pins 11 and 3
- TCCR1B = TCCR1B & 0b11111000 | 0x05; //Pins 9 and 10
+ TCCR2B = TCCR2B & 0b11111000 | 0x07; // Adjusting PWM frequencies for testing pins 11 and 3
+ TCCR1B = TCCR1B & 0b11111000 | 0x05; // Pins 9 and 10
  
  nunchuck_setpowerpins(); // use analog pins 2 & 3 as gnd & pwr (uncomment to use WiiChuck)
  
@@ -46,7 +46,7 @@ void setup() {
  chuck.update();
 }
  
-//To power the WiiChuck Adapter
+// To power the WiiChuck Adapter
 static void nunchuck_setpowerpins() {
 #define pwrpin PORTC3
 #define gndpin PORTC2
@@ -64,17 +64,14 @@ void loop() {
  vary = chuck.readJoyY(); // nunchuk.analogY is the value of the y-axis
  
  // The values used for speed
- 
  absx = abs(varx); // Convert the x-axis value to an absolute value
  absy = abs(vary);
  
  // Map the x/y value to get the full range
- 
  mapx = map(absx, 0, 100, 0, 115);
  mapy = map(absy, 0, 100, 0, 115);
  
  // Tilt based on the input from the joystick
- 
  if (vary > 18) {
   analogWrite(up, mapy);
   digitalWrite(down, LOW);
